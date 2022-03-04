@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_202534) do
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
+    t.string "date"
     t.string "name"
     t.integer "minutes"
     t.string "notes"
