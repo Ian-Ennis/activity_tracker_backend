@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authorized
+  # before_action :authorized
 
   # make key something long and indecipherable and store it in an environment cariable somewhere that isnt checked-in. That way its not attached. 
   def encode_token(payload)
