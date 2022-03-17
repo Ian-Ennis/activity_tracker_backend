@@ -8,7 +8,7 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.string :yoga_type
       t.string :workout
       t.float :distance
-      t.references(:user, type: :integer)
+      t.references :user, type: :integer, foreign_key: true
       t.timestamps
     end
   end

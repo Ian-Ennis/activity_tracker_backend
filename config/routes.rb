@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
-
-  resources :activities, only: [:index, :create, :read, :update, :destroy]
-
-  namespace :api do
-    namespace :v1 do
-      resources :users, only: [:create]
-      post '/login', to: 'auth#create'
-      get '/profile', to: 'users#profile' 
-    end
+  
+  Rails.application.routes.draw do
+    resources :activities, only: [:index, :create, :read, :update, :destroy]
+    resource :users, only: [:create]
+    post "/login", to: "users#login"
+    get "/auto_login", to: "users#auto_login"
   end
 
 end

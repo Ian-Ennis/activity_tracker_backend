@@ -55,4 +55,6 @@ gem "faker", "~> 2.19"
 # need jwt gem 
 gem 'jwt', '~> 1.5', '>= 1.5.4'
 
+gem "dotenv-rails", groups: [:development, :test]
+
 

@@ -1,9 +1,15 @@
 class ActivitiesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
+    before_action :authorized
+
     def index
-        render json: Activity.all, status: :ok
+        @activity = Activity.where(user_id: @user.id)
+        render json: @activity, status: :ok
     end
+
+    def show 
+        render json: @activity
 
     def create
         activity = Activity.create!(activity_params)
