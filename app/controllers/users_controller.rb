@@ -1,38 +1,34 @@
 class UsersController < ApplicationController
-    before_action :authorized, only: [:auto_login]
-  
-    # REGISTER
-    def create
-      @user = User.create(user_params)
-      if @user.valid?
-        token = encode_token({user_id: @user.id})
-        render json: {user: @user, token: token}
-      else
-        render json: {error: "Invalid username or password"}
+
+  skip_before_action :require_login, only: [:create]
+  before_action :require_login, only: [:updated_at]
+
+     def create
+      puts "=== in Users create"
+        user = User.create!(user_params)
+        if user.valid?
+          puts "=== user is valid"
+          payload = {
+            user_id: user.id,
+            iat: Time.now
+          }
+          puts payload
+          token = encode_token(payload)
+          render json: {user: user, include: [jwt: token]}, status: :ok
+        else
+          render json: {errors: user.errors.full_messages}, status: :not_acceptable
+        end
+        
       end
-    end
-  
-    # LOGGING IN
-    def login
-      @user = User.find_by(username: params[:username])
-  
-      if @user && @user.authenticate(params[:password])
-        token = encode_token({user_id: @user.id})
-        render json: {user: @user, token: token}
-      else
-        render json: {error: "Invalid username or password"}
+
+      def updated_at
       end
-    end
-  
-  
-    def auto_login
-      render json: @user
-    end
-  
-    private
-  
-    def user_params
-      params.permit(:username, :password, :age)
-    end
-  
-  end
+
+      private
+
+      def user_params
+        puts "=== in users params"
+        params.permit(:username, :password)
+      end
+
+end

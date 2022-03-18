@@ -1,15 +1,16 @@
 class ActivitiesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
-    before_action :authorized
+    # before_action :authorized
 
     def index
-        @activity = Activity.where(user_id: @user.id)
-        render json: @activity, status: :ok
+        activity = Activity.all
+        render json: activity, status: :ok
     end
 
     def show 
         render json: @activity
+    end
 
     def create
         activity = Activity.create!(activity_params)
@@ -43,3 +44,19 @@ class ActivitiesController < ApplicationController
     end
 
 end
+
+# class CreateActivities < ActiveRecord::Migration[6.1]
+#     def change
+#       create_table :activities do |t|
+#         t.string :date
+#         t.string :name
+#         t.integer :minutes
+#         t.string :notes
+#         t.string :yoga_type
+#         t.string :workout
+#         t.float :distance
+#         t.references :user, type: :integer, foreign_key: true
+#         t.timestamps
+#       end
+#     end
+#   end
